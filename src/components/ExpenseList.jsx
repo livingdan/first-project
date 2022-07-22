@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Expense } from "./Expense";
+import Table from 'react-bootstrap/Table';
 
 
 export const ExpenseList = () => {
@@ -15,24 +16,25 @@ export const ExpenseList = () => {
 
     return (
         <>
-            <table>               
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Reason</th>
-                        <th>Notes</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {requests.map((request) => {
-                        return (
-                        <Expense key={request.id} request={request} requests={requests} setRequests={setRequests}/>
-                        );
-                    })}
-                </tbody>
+        <Table bordered>               
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Reason</th>
+                    <th>Notes</th>
+                    <th>Status</th>
+                    <th>Modify</th>
+                </tr>
+            </thead>
+            <tbody>
+                {requests.map((request) => {
+                    return (
+                    <Expense key={request.id} request={request} requests={requests} setRequests={setRequests}/>
+                    );
+                })}
+            </tbody>
 
-            </table>
+        </Table>
         </>
     );
 }

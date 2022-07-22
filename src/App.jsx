@@ -1,24 +1,26 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import './App.css';
-import Header from './components/Header';
-import { ExpenseList } from './components/ExpenseList';
-import { ExpenseRequest } from './components/ExpenseRequest.jsx';
+import { Home } from './pages/Home';
+import { ListRequests } from './pages/ListRequests';
+import { Navigation } from './components/Navigation';
+import Nav from 'react-bootstrap/Nav';
 
 function App() {
   return (
     <>
     <BrowserRouter>
+    <Navigation>
+      <Nav.Item>
+        <Nav.Link href="/">Make Request</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link href="/list_requests">Manage Requests</Nav.Link>
+      </Nav.Item>
+    </Navigation>
       <Routes>
-        <Route path="/list_requests" />
+        <Route path="/" element={<Home />} />
+        <Route path="/list_requests" element={<ListRequests />} />
       </Routes>
     </BrowserRouter>
-    <div className="App">
-      <Header />
-      <ExpenseRequest />
-      <ExpenseList />
-    
-    </div>
     </>
   );
 }

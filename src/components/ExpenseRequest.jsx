@@ -1,10 +1,15 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import {SuccessModal} from './SuccessModal';
+
 
 export const ExpenseRequest = () => {
     const nameRef = useRef();
     const reasonRef = useRef();
     const notesRef = useRef();
+    const [modalShow, setModalShow] = useState(false);
     
 
 
@@ -12,7 +17,7 @@ export const ExpenseRequest = () => {
         try {
             event.preventDefault();
 
-            const {data} = await axios.post('http://localhost:8080/first-project/',
+            await axios.post('http://localhost:8080/first-project/',
             {
             name: nameRef.current.value,
             reason: reasonRef.current.value,
@@ -23,31 +28,38 @@ export const ExpenseRequest = () => {
             nameRef.current.value = null;
             reasonRef.current.value = null;
             notesRef.current.value = null;
+            setModalShow(true)
         } catch (err) {
             console.error(err);
         }
-        
-
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-        <div>
-            <label htmlFor="name">Name:</label>
-            <input name="name" ref={nameRef} placeholder='Enter Name' />
-        </div>
-        <div>
-            <label htmlFor="reason">Reason:</label>
-            <input name="reason" ref={reasonRef} placeholder='Enter reason for reimbursement' />
-        </div>
-        <div>
-            <label htmlFor="notes">Notes:</label>
-            <input name="notes" ref={notesRef} placeholder='Enter additional notes'/>
-        </div>
-        <div>
-            <button>Submit Request</button>
-        </div>
-        </form>
+        <>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group>
+                <Form.Label >Name:</Form.Label>
+                <Form.Control name="name" ref={nameRef} required placeholder='Enter Name' />
+            </Form.Group>
+            <Form.Group>
+                <Form.Label >Reason:</Form.Label>
+                <Form.Control name="reason" ref={reasonRef} required placeholder='Enter reason for reimbursement' />
+            </Form.Group>
+            <Form.Group>
+                <Form.Label >Notes:</Form.Label>
+                <Form.Control name="notes" ref={notesRef} placeholder='Enter additional notes'/>
+            </Form.Group>
+            
+            <Button variant="success" type="submit" >
+            Submit Request
+            </Button>
+            
+        </Form>
+        <SuccessModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+        </>
     )
 
 }
